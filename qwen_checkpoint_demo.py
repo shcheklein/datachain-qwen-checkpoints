@@ -1,4 +1,4 @@
-"""Embed all windows, fail after 1,000, remove the failure, then Resume."""
+"""Embed all windows, interrupt at source row 1,001, then Resume."""
 
 import datachain as dc
 
@@ -10,7 +10,7 @@ def embed(
 ) -> Embedding:
     # Deliberate failure. Remove this block, then click Resume.
     if row_id == 1001:
-        raise RuntimeError("Demo interruption after 1,000 embeddings")
+        raise RuntimeError("Demo interruption at source row 1,001")
     return encoder.embed_video(fragment, sampling)
 
 
