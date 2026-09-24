@@ -25,8 +25,12 @@ The input is `@shcheklein.default.l2_egodex_qwen_7165f0d173@1.0.0`, filtered to 
 
 The connected `run_job` tool accepts a `repository` URL with an optional `@branch` or `@tag`. It also requires `query`, containing the Python source from `qwen_checkpoint_demo.py`. Its `query_name` is a display name, not a repository file selector. The encoder is imported from the cloned repository.
 
-Pass the requirements file contents through `requirements`, set `python_version` to `3.11`, and use `workers: 0`. The current MCP tool has no Resume action; use Studio's Resume control.
+Pass the requirements file contents through `requirements`, set `python_version` to `3.11`, and use `workers: 0`. Select a cluster using the `cluster_id` returned by `list_clusters`. The current MCP tool has no Resume action; use Studio's Resume control.
 
 ## Verification status
 
-The restored September 20 demo passed local failure/recovery tests using real video decoding and a deterministic test encoder. The inference sequence was `[1, 2, 3]`, then `[4, 5, 6, 7]`, then `[]` on a completed rerun. These tests did not load Qwen weights. A live repository-backed Studio run has not yet been performed.
+The restored September 20 demo passed local failure/recovery tests using real video decoding and a deterministic test encoder. The inference sequence was `[1, 2, 3]`, then `[4, 5, 6, 7]`, then `[]` on a completed rerun. These tests did not load Qwen weights.
+
+On September 24, 2026, a repository-backed Studio run on `aws-cpu` loaded the real Qwen weights with CPU PyTorch and reached the intended failure. Studio reported `rows_total: 7`, `rows_processed: 3`, and `rows_generated: 3`, followed by `RuntimeError: Demo interruption before embedding window 4`. The run used commit `010e286afb5d9beee309121a1d5ff42c5b2330dc`.
+
+Recovery with Studio's **Resume** control is still pending. Reuse of the three completed embeddings and the final seven-row dataset have not yet been verified in Studio.
